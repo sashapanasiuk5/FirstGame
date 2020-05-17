@@ -26,7 +26,10 @@ public class PlayerKeyboardController : MonoBehaviour {
 			} else if (Input.GetKey (KeyCode.D)) {
 
 				Player.MoveRight ();
-			}
+			} else if (Input.GetKey (KeyCode.LeftShift)) {
+
+			Player.Sprint();
+		}
 
 			
 
