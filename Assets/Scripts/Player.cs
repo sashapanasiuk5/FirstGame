@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
 
 			}
 
-			WalkCounter = WalkCouldown;
+			WalkCounter = 1;
 			animator.Play ("Walk");	
 		}else{
 			if (direction == Direction.Right) {
@@ -46,12 +46,12 @@ public class Player : MonoBehaviour {
 
 
 			}
-			WalkCounter = WalkCouldown;
+			WalkCounter = 1;
 		} 
 	}
 	public void MoveRight(){
 		if(movestate != MoveState.Jump){
-
+			
 			movestate = MoveState.Move;
 			if(direction == Direction.Left){
 				transform.localScale = new Vector3(-transform.localScale.x,transform.localScale.y,transform.localScale.z);
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour {
 
 			}
 
-			WalkCounter = WalkCouldown;
+			WalkCounter = 1;
 			animator.Play("Walk");	
 		}else{
 			if (direction == Direction.Left) {
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour {
 			
 
 			}
-			WalkCounter = WalkCouldown;
+			WalkCounter = 1;
 		}  
 	}
 	public void Jump(){
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour {
 	}
 	public void Sprint(){
 		movestate = MoveState.Sprint;
-		animator.Play ("Sprint");
+		animator.Play ("Dash");
 		SprintCounter = SprintCouldown;
 
 	}
@@ -112,19 +112,20 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (movestate);
+		
+
 		if (movestate == MoveState.Move) {
 			
-			rigidbody.velocity = ((direction == Direction.Left ? -Vector2.right : Vector2.right) * WalkSpeed * Time.deltaTime);
-
+			rigidbody.velocity =((direction == Direction.Left ? -Vector2.right : Vector2.right) * WalkSpeed * Time.deltaTime);
+			Debug.Log ("wesd");
 				
-
-
-			WalkCounter -= Time.deltaTime;
-			if (WalkCounter <= 0) {
+			if (WalkCounter == 0) {
 				movestate = MoveState.Idle;
 				animator.Play ("Idle");
 			}
+
+			WalkCounter = 0;
+
 		} else if (movestate == MoveState.Jump) {
 			
 
