@@ -10,8 +10,8 @@ public class Player : MonoBehaviour {
 	public float JumpForce = 5f;
 	public float FlyingMovementSpeed = 3f;
 
-	private MoveState movestate = MoveState.Idle;
-	private Direction direction = Direction.Right;
+	public MoveState movestate = MoveState.Idle;
+	public Direction direction = Direction.Right;
 
 
 	private Transform transform;
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
 	
 			if (JumpCounter <= 1) {
 				rigidbody.velocity = (Vector2.up * JumpForce * Time.deltaTime * 10);
-				movestate = MoveState.Jump;
+				
 
 
 				animator.Play ("Jump");
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour {
 				if (rigidbody.velocity == Vector2.zero) {
 					JumpCounter = 0;
 					rigidbody.velocity = (Vector2.up * JumpForce * Time.deltaTime * 10);
-					movestate = MoveState.Jump;
+					
 					
 
 					animator.Play ("Jump");
@@ -112,12 +112,17 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (rigidbody.velocity.y != 0) {
+			movestate = MoveState.Jump;
+			animator.Play ("Jump");
+		}
 		
 
 		if (movestate == MoveState.Move) {
 			
 			rigidbody.velocity =((direction == Direction.Left ? -Vector2.right : Vector2.right) * WalkSpeed * Time.deltaTime);
-			Debug.Log ("wesd");
+
 				
 			if (WalkCounter == 0) {
 				movestate = MoveState.Idle;
@@ -151,13 +156,14 @@ public class Player : MonoBehaviour {
 		}
 		
 	}
-	enum MoveState{
+	public enum MoveState{
 		Jump,
 		Move,
 		Sprint,
+		Attack,
 		Idle
 	}
-	enum Direction{
+	public enum Direction{
 		Right,
 		Left
 	}
